@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"haemong-be/dto/user/request"
 	"haemong-be/service"
 )
 
@@ -16,10 +17,9 @@ func NewUserController(s service.UserService) *UserController {
 }
 
 func (r *UserController) UserController(c *fiber.Ctx) error {
-	userName := "유찬홍"
-	userId := "chanhong1206"
-	password := "password"
-	err := r.userService.SignUp(userName, userId, password)
+	dto := new(request.UserReqDTO)
+	_ = c.BodyParser(dto)
+	err := r.userService.SignUp(dto.UserName, dto.UserId, dto.Password)
 	if err != nil {
 		c.Status(500).SendString(err.Error())
 	}
