@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"haemong-be/controller"
 	"haemong-be/repository"
@@ -9,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Println("hello hanul")
 	app := fiber.New()
 
 	userRepository := repository.NewUserRepository()

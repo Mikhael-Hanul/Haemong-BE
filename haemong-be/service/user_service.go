@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"haemong-be/repository"
 )
 
@@ -16,10 +15,7 @@ func NewUserService(repo repository.UserRepository) *UserService {
 	}
 }
 
-func (r *UserService) SignUp(c *fiber.Ctx) error {
-	userName := "유찬홍"
-	userId := "chanhong1206"
-	password := "password"
+func (r *UserService) SignUp(userName, userId, password string) error {
 	isUserIdDuplicate := r.repo.IsUserIdDuplicate(userId)
 	if isUserIdDuplicate {
 		return fmt.Errorf("아이디 중복")
