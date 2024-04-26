@@ -2,6 +2,6 @@ package request
 
 type UserReqDTO struct {
 	UserId   string `json:"userId"`
-	UserName string `json:"userName"`
+	Name     string `json:"name"`
 	Password string `json:"password"`
 }
