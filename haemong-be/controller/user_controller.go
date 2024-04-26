@@ -16,8 +16,8 @@ func NewUserController(s *service.UserService) *UserController {
 	}
 }
 
-func (r *UserController) UserController(c *fiber.Ctx) error {
-	dto := new(request.UserReqDTO)
+func (r *UserController) SignUp(c *fiber.Ctx) error {
+	dto := new(request.SignUpReqDTO)
 	_ = c.BodyParser(dto)
 	err := r.userService.SignUp(dto.Name, dto.UserId, dto.Password)
 	if err != nil {
