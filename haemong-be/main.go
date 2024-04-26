@@ -24,8 +24,15 @@ func main() {
 	userService := service.NewUserService(userRepository)
 	userController := controller.NewUserController(userService)
 
+	authRepository := repository.NewAuthRepository(db)
+	authService := service.NewAuthService(authRepository, userRepository)
+	authController := controller.NewAuthController(authService)
+
 	user := app.Group("/user")
-	user.Post("/sign-up", userController.UserController)
+	user.Post("/sign-up", userController.SignUp)
+
+	auth := app.Group("/auth")
+	auth.Post("/sign-in", authController.SignIn)
 
 	_ = app.Listen(":8080")
 }
