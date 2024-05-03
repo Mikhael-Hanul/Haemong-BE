@@ -24,7 +24,7 @@ type IlgiEntity struct {
 }
 
 func (r *IlgiRepositroy) SaveIlgi(ilgiId, title, content, date, weather string) error {
-	_, err := r.db.Exec("insert into tbl_ilgi value (?,?)", ilgiId, title, content, date, weather)
+	_, err := r.db.Exec("insert into tbl_ilgi value (?,?,?,?,?)", ilgiId, title, content, date, weather)
 	if err != nil {
 		return fmt.Errorf("일기 등록에 실패함 : " + err.Error())
 	}

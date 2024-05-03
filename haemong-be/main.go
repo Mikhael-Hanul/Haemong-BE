@@ -28,12 +28,19 @@ func main() {
 	authService := service.NewAuthService(authRepository, userRepository)
 	authController := controller.NewAuthController(authService)
 
+	ilgiRepository := repository.NewIlgiRepository(db)
+	ilgiService := service.NewIlgiService(ilgiRepository)
+	ilgiController := controller.NewIlgiController(ilgiService)
+
 	user := app.Group("/user")
 	user.Post("/sign-up", userController.SignUp)
 	user.Post("/change-password", userController.ChangePassword)
 
 	auth := app.Group("/auth")
 	auth.Post("/sign-in", authController.SignIn)
+
+	ilgi := app.Group("/ilgi")
+	ilgi.Post("/save", ilgiController.SaveIlgi)
 
 	_ = app.Listen(":8080")
 }
