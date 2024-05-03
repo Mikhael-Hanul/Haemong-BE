@@ -25,3 +25,13 @@ func (r *UserController) SignUp(c *fiber.Ctx) error {
 	}
 	return c.Status(201).SendString("회원가입 성공")
 }
+
+func (r *UserController) ChangePassword(c *fiber.Ctx) error {
+	dto := new(request.ChangePasswordReqDTO)
+	_ = c.BodyParser(dto)
+	err := r.userService.ChangePassword(dto.UserId, dto.Password, dto.NewPassword)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.Status(200).SendString("비밀번호 변경 성공")
+}

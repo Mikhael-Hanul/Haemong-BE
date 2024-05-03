@@ -22,3 +22,14 @@ func (r *UserService) SignUp(name, userId, password string) error {
 	}
 	return r.repo.SaveUser(userId, password, name)
 }
+
+func (r *UserService) ChangePassword(userId, password, newPassword string) error {
+	userPassword, err := r.repo.FindUserPassword(userId)
+	if err != nil {
+		return err
+	}
+	if userPassword != password {
+		return errors.New("비밀번호가 일치하지 않습니다.")
+	}
+	return r.repo.ChangeUserPassword(userId, newPassword)
+}

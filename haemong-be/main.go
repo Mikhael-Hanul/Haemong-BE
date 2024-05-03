@@ -30,6 +30,7 @@ func main() {
 
 	user := app.Group("/user")
 	user.Post("/sign-up", userController.SignUp)
+	user.Post("/change-password", userController.ChangePassword)
 
 	auth := app.Group("/auth")
 	auth.Post("/sign-in", authController.SignIn)
