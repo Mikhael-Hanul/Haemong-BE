@@ -30,3 +30,11 @@ func (r *IlgiRepositroy) SaveIlgi(ilgiId, title, content, date, weather string) 
 	}
 	return nil
 }
+
+func (r *IlgiRepositroy) ModifyIlgi(ilgiId, title, content, date, weather string) error {
+	_, err := r.db.Exec("UPDATE tbl_ilgi SET title = ?, content = ?, date = ?, weather = ? WHERE ilgiId = ?", title, content, date, weather, ilgiId)
+	if err != nil {
+		return fmt.Errorf("일기 수정에 실패함 : " + err.Error())
+	}
+	return nil
+}
