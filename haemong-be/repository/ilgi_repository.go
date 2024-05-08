@@ -38,3 +38,11 @@ func (r *IlgiRepositroy) ModifyIlgi(ilgiId, title, content, date, weather string
 	}
 	return nil
 }
+
+func (r *IlgiRepositroy) DeleteIlgi(ilgiId string) error {
+	_, err := r.db.Exec("DELETE FROM tbl_ilgi WHERE ilgiId = ?", ilgiId)
+	if err != nil {
+		return fmt.Errorf("일기 삭제에 실패함 : " + err.Error())
+	}
+	return nil
+}

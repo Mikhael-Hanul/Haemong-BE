@@ -42,6 +42,7 @@ func main() {
 	ilgi := app.Group("/ilgi")
 	ilgi.Post("/save", ilgiController.SaveIlgi)
 	ilgi.Put("/modify", ilgiController.ModifyIlgi)
+	ilgi.Delete("/:id", ilgiController.DeleteIlgi)
 
 	_ = app.Listen(":8080")
 }

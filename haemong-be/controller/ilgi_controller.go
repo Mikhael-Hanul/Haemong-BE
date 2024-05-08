@@ -36,3 +36,12 @@ func (r *IlgiController) ModifyIlgi(c *fiber.Ctx) error {
 	}
 	return c.Status(200).SendString("일기 수정 성공")
 }
+
+func (r *IlgiController) DeleteIlgi(c *fiber.Ctx) error {
+	ilgiId := c.Params("id")
+	err := r.ilgiService.DeleteIlgi(ilgiId)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.Status(201).SendString("일기 삭제 성공")
+}

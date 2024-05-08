@@ -23,3 +23,7 @@ func (r *IlgiService) SaveIlgi(title, content, date, weather string) error {
 func (r *IlgiService) ModifyIlgi(ilgiId, title, content, date, weather string) error {
 	return r.repo.ModifyIlgi(ilgiId, title, content, date, weather)
 }
+
+func (r *IlgiService) DeleteIlgi(ilgiId string) error {
+	return r.repo.DeleteIlgi(ilgiId)
+}
