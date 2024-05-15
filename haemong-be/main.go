@@ -21,15 +21,18 @@ func main() {
 	}
 
 	userRepository := repository.NewUserRepository(db)
-	userService := service.NewUserService(userRepository)
-	userController := controller.NewUserController(userService)
-
+	feedRepository := repository.NewFeedRepository(db)
 	authRepository := repository.NewAuthRepository(db)
-	authService := service.NewAuthService(authRepository, userRepository)
-	authController := controller.NewAuthController(authService)
-
 	ilgiRepository := repository.NewIlgiRepository(db)
+
+	userService := service.NewUserService(userRepository)
+	feedService := service.NewFeedService(feedRepository, userRepository)
+	authService := service.NewAuthService(authRepository, userRepository)
 	ilgiService := service.NewIlgiService(ilgiRepository)
+
+	userController := controller.NewUserController(userService)
+	feedController := controller.NewFeedController(feedService)
+	authController := controller.NewAuthController(authService)
 	ilgiController := controller.NewIlgiController(ilgiService)
 
 	user := app.Group("/user")
@@ -43,6 +46,9 @@ func main() {
 	ilgi.Post("/save", ilgiController.SaveIlgi)
 	ilgi.Put("/modify", ilgiController.ModifyIlgi)
 	ilgi.Delete("/:id", ilgiController.DeleteIlgi)
+
+	feed := app.Group("/feed")
+	feed.Post("/", feedController.SaveFeed)
 
 	_ = app.Listen(":8080")
 }
