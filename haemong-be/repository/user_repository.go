@@ -17,9 +17,9 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 }
 
 type UserEntity struct {
-	userId   string
-	password string
-	name     string
+	UserId   string
+	Password string
+	Name     string
 }
 
 func (r *UserRepository) SaveUser(userId, password, name string) error {
@@ -32,17 +32,26 @@ func (r *UserRepository) SaveUser(userId, password, name string) error {
 
 func (r *UserRepository) IsUserIdDuplicate(userId string) bool {
 	var u UserEntity
-	err := r.db.QueryRow("select * from tbl_user where userId = ?", userId).Scan(&u.userId, &u.password, &u.name)
+	err := r.db.QueryRow("select * from tbl_user where userId = ?", userId).Scan(&u.UserId, &u.Password, &u.Name)
 	return err == nil
 }
 
-func (r *UserRepository) FindUserPassword(userId string) (string, error) {
+func (r *UserRepository) FindPasswordById(userId string) (string, error) {
 	var password string
 	err := r.db.QueryRow("select password from tbl_user where userId = ?", userId).Scan(&password)
 	if err != nil {
-		return "", errors.New("유저가 존재하지 않습니다.")
+		return "", errors.New("존재하지 않는 유저입니다.")
 	}
 	return password, nil
+}
+
+func (r *UserRepository) FindUserById(userId string) (UserEntity, error) {
+	var entity UserEntity
+	err := r.db.QueryRow("select * from tbl_user where userId = ?", userId).Scan(&entity.UserId, &entity.Password, &entity.Name)
+	if err != nil {
+		return entity, errors.New("존재하지 않는 유저입니다.")
+	}
+	return entity, nil
 }
 
 func (r *UserRepository) ChangeUserPassword(userId, newPassword string) error {

@@ -24,7 +24,7 @@ func (r *UserService) SignUp(name, userId, password string) error {
 }
 
 func (r *UserService) ChangePassword(userId, password, newPassword string) error {
-	userPassword, err := r.repo.FindUserPassword(userId)
+	userPassword, err := r.repo.FindPasswordById(userId)
 	if err != nil {
 		return err
 	}
