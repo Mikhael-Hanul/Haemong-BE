@@ -18,11 +18,7 @@ func NewFeedService(feedRepo *repository.FeedRepository, userRepo *repository.Us
 }
 
 func (r *FeedService) SaveFeed(userId, title, content string) error {
-	user, err := r.userRepo.FindUserById(userId)
-	if err != nil {
-		return err
-	}
-	err = r.feedRepo.SaveFeed(uuid.New().String(), userId, user.Name, title, content)
+	err := r.feedRepo.SaveFeed(uuid.New().String(), userId, title, content)
 	if err != nil {
 		return err
 	}

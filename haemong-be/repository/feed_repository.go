@@ -10,11 +10,10 @@ type FeedRepository struct {
 }
 
 type FeedEntity struct {
-	feedId   string
-	userId   string
-	userName string
-	title    string
-	content  string
+	feedId  string
+	userId  string
+	title   string
+	content string
 }
 
 func NewFeedRepository(db *sql.DB) *FeedRepository {
@@ -23,8 +22,8 @@ func NewFeedRepository(db *sql.DB) *FeedRepository {
 	}
 }
 
-func (r *FeedRepository) SaveFeed(feedId, userId, userName, title, content string) error {
-	_, err := r.db.Exec("insert into tbl_feed value (?, ?, ?, ?, ?)", feedId, userId, userName, title, content)
+func (r *FeedRepository) SaveFeed(feedId, userId, title, content string) error {
+	_, err := r.db.Exec("insert into tbl_feed value (?, ?, ?, ?)", feedId, userId, title, content)
 	if err != nil {
 		return errors.New("피드 등록에 실패함 : " + err.Error())
 	}
