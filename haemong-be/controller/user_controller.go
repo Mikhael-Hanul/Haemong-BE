@@ -35,3 +35,13 @@ func (r *UserController) ChangePassword(c *fiber.Ctx) error {
 	}
 	return c.Status(200).SendString("비밀번호 변경 성공")
 }
+
+func (r *UserController) Withdrawal(c *fiber.Ctx) error {
+	userId := c.Params("userId")
+	password := c.Params("password")
+	err := r.userService.Withdrawal(userId, password)
+	if err != nil {
+		c.Status(500).SendString(err.Error())
+	}
+	return c.Status(200).SendString("회원 탈퇴 성공")
+}

@@ -61,3 +61,11 @@ func (r *UserRepository) ChangeUserPassword(userId, newPassword string) error {
 	}
 	return nil
 }
+
+func (r *UserRepository) Withdrawal(userId string) error {
+	_, err := r.db.Exec("delete from tbl_user where userId = ?", userId)
+	if err != nil {
+		return errors.New("회원 탈퇴에 실패했습니다.")
+	}
+	return nil
+}

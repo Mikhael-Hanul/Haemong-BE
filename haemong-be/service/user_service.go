@@ -33,3 +33,14 @@ func (r *UserService) ChangePassword(userId, password, newPassword string) error
 	}
 	return r.repo.ChangeUserPassword(userId, newPassword)
 }
+
+func (r *UserService) Withdrawal(userId, password string) error {
+	user, err := r.repo.FindUserById(userId)
+	if err != nil {
+		return err
+	}
+	if user.Password != password {
+		return errors.New("비밀번호가 일치하지 않습니다.")
+	}
+	return r.repo.Withdrawal(userId)
+}

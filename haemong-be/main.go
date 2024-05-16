@@ -38,6 +38,7 @@ func main() {
 	user := app.Group("/user")
 	user.Post("/sign-up", userController.SignUp)
 	user.Post("/change-password", userController.ChangePassword)
+	user.Delete("/withdrawal", userController.Withdrawal)
 
 	auth := app.Group("/auth")
 	auth.Post("/sign-in", authController.SignIn)
