@@ -47,6 +47,7 @@ func main() {
 	ilgi.Post("/save", ilgiController.SaveIlgi)
 	ilgi.Put("/modify", ilgiController.ModifyIlgi)
 	ilgi.Delete("/:id", ilgiController.DeleteIlgi)
+	ilgi.Get("/:search", ilgiController.SearchIlgi)
 
 	feed := app.Group("/feed")
 	feed.Post("/", feedController.SaveFeed)

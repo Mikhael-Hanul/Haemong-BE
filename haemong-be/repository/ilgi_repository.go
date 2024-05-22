@@ -16,11 +16,11 @@ func NewIlgiRepository(db *sql.DB) *IlgiRepositroy {
 }
 
 type IlgiEntity struct {
-	ilgiId  string
-	title   string
-	content string
-	date    string
-	weather string
+	IlgiId  string
+	Title   string
+	Content string
+	Date    string
+	Weather string
 }
 
 func (r *IlgiRepositroy) SaveIlgi(ilgiId, title, content, date, weather string) error {
@@ -45,4 +45,23 @@ func (r *IlgiRepositroy) DeleteIlgi(ilgiId string) error {
 		return fmt.Errorf("일기 삭제에 실패함 : " + err.Error())
 	}
 	return nil
+}
+
+func (r *IlgiRepositroy) SearchIlgi(keyword string) ([]IlgiEntity, error) {
+	rows, err := r.db.Query("SELECT ilgiId, title, content FROM tbl_ilgi WHERE content LIKE ?", "%"+keyword+"%")
+	if err != nil {
+		return nil, fmt.Errorf("일기 검색에 실패함 : " + err.Error())
+	}
+	defer rows.Close()
+
+	var ilgis []IlgiEntity
+	for rows.Next() {
+		var ilgi IlgiEntity
+		err := rows.Scan(&ilgi.IlgiId, &ilgi.Title, &ilgi.Content, &ilgi.Weather, &ilgi.Date)
+		if err != nil {
+			return nil, fmt.Errorf("일기 검색 결과 읽기에 실패함 : " + err.Error())
+		}
+		ilgis = append(ilgis, ilgi)
+	}
+	return ilgis, nil
 }

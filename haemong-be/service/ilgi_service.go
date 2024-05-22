@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
+	"haemong-be/dto/ilgi/response"
 	"haemong-be/repository"
 )
 
@@ -26,4 +27,25 @@ func (r *IlgiService) ModifyIlgi(ilgiId, title, content, date, weather string) e
 
 func (r *IlgiService) DeleteIlgi(ilgiId string) error {
 	return r.repo.DeleteIlgi(ilgiId)
+}
+
+func (r *IlgiService) SearchIlgi(keyword string) ([]response.SearchIlgiResDTO, error) {
+	ilgis, err := r.repo.SearchIlgi(keyword)
+	if err != nil {
+		return nil, err
+	}
+
+	var ilgisDTO []response.SearchIlgiResDTO
+	for _, i := range ilgis {
+		ilgiDTO := response.SearchIlgiResDTO{
+			IlgiId:  i.IlgiId,
+			Title:   i.Title,
+			Content: i.Content,
+			Date:    i.Date,
+			Weather: i.Weather,
+		}
+		ilgisDTO = append(ilgisDTO, ilgiDTO)
+	}
+
+	return ilgisDTO, nil
 }

@@ -45,3 +45,12 @@ func (r *IlgiController) DeleteIlgi(c *fiber.Ctx) error {
 	}
 	return c.Status(201).SendString("일기 삭제 성공")
 }
+
+func (r *IlgiController) SearchIlgi(c *fiber.Ctx) error {
+	keyword := c.Params("search")
+	ilgis, err := r.ilgiService.SearchIlgi(keyword)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.Status(200).JSON(ilgis)
+}
