@@ -14,7 +14,8 @@ import (
 func main() {
 	app := fiber.New()
 	password := os.Getenv("PASSWORD")
-	db, err := sql.Open("mysql", "root:"+password+"@tcp(localhost:3306)/haemong")
+	host := os.Getenv("HOST")
+	db, err := sql.Open("mysql", "admin:"+password+"@tcp("+host+":3306)/haemong")
 	if err != nil {
 		fmt.Println("db boom..! ", err)
 		return
