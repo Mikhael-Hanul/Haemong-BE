@@ -25,16 +25,19 @@ func main() {
 	feedRepository := repository.NewFeedRepository(db)
 	authRepository := repository.NewAuthRepository(db)
 	ilgiRepository := repository.NewIlgiRepository(db)
+	commentRepository := repository.NewCommentRepository(db)
 
 	userService := service.NewUserService(userRepository)
 	feedService := service.NewFeedService(feedRepository, userRepository)
 	authService := service.NewAuthService(authRepository, userRepository)
 	ilgiService := service.NewIlgiService(ilgiRepository)
+	commentService := service.NewCommentService(commentRepository)
 
 	userController := controller.NewUserController(userService)
 	feedController := controller.NewFeedController(feedService)
 	authController := controller.NewAuthController(authService)
 	ilgiController := controller.NewIlgiController(ilgiService)
+	commentController := controller.NewCommentController(commentService)
 
 	user := app.Group("/user")
 	user.Post("/sign-up", userController.SignUp)
@@ -53,6 +56,9 @@ func main() {
 	feed := app.Group("/feed")
 	feed.Post("/", feedController.SaveFeed)
 	feed.Get("/", feedController.ReadAllFeeds)
+
+	comment := app.Group("/comment")
+	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
 
 	_ = app.Listen(":8080")
 }
