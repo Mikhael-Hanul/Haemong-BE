@@ -52,6 +52,7 @@ func main() {
 
 	feed := app.Group("/feed")
 	feed.Post("/", feedController.SaveFeed)
+	feed.Get("/", feedController.ReadAllFeeds)
 
 	_ = app.Listen(":8080")
 }
