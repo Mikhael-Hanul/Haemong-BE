@@ -22,6 +22,8 @@ func main() {
 		return
 	}
 
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+
 	userRepository := repository.NewUserRepository(db)
 	feedRepository := repository.NewFeedRepository(db)
 	authRepository := repository.NewAuthRepository(db)
@@ -61,7 +63,5 @@ func main() {
 	comment := app.Group("/comment")
 	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
 
-	app.Get("/swagger/*", fiberSwagger.WrapHandler)
-	
 	_ = app.Listen(":8080")
 }
