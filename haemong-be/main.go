@@ -62,6 +62,7 @@ func main() {
 
 	comment := app.Group("/comment")
 	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
+	comment.Post("/", commentController.CreateComment)
 
 	_ = app.Listen(":8080")
 }

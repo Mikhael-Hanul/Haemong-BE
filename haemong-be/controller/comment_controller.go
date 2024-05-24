@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"haemong-be/dto/comment/request"
 	"haemong-be/service"
 )
 
@@ -22,4 +23,14 @@ func (r *CommentController) ReadCommentsOnTheFeed(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 	return c.Status(200).JSON(comments)
+}
+
+func (r *CommentController) CreateComment(c *fiber.Ctx) error {
+	dto := new(request.CreateCommentReqDTO)
+	_ = c.BodyParser(dto)
+	err := r.commentService.CreateComment(*dto)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.Status(200).SendString("댓글 작성 성공")
 }

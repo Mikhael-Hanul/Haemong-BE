@@ -1,8 +1,11 @@
 package service
 
 import (
+	"errors"
+	"haemong-be/dto/comment/request"
 	"haemong-be/dto/comment/response"
 	"haemong-be/repository"
+	"time"
 )
 
 type CommentService struct {
@@ -32,4 +35,12 @@ func (r *CommentService) ReadCommentsOnTheFeed(feedId string) (list []response.R
 		list = append(list, a)
 	}
 	return list, nil
+}
+
+func (r *CommentService) CreateComment(dto request.CreateCommentReqDTO) error {
+	err := r.commentRepo.CreateComment(dto.FeedId, dto.Comment, dto.UserId, time.Now().Format(time.DateTime))
+	if err != nil {
+		return errors.New("댓글 작성 실패")
+	}
+	return nil
 }

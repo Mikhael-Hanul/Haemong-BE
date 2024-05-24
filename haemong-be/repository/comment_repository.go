@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 )
 
 type CommentRepository struct {
@@ -39,4 +40,10 @@ func (r *CommentRepository) ReadCommentsOnTheFeed(feedId string) (entityList []C
 		entityList = append(entityList, commentEntity)
 	}
 	return entityList, nil
+}
+
+func (r *CommentRepository) CreateComment(feedId, comment, userId, date string) error {
+	_, err := r.db.Exec("insert into tbl_comment(feedId, comment, userId, date) value(?, ?, ?, ?)", feedId, comment, userId, date)
+	fmt.Println(err)
+	return err
 }
