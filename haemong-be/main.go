@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 	"haemong-be/controller"
 	"haemong-be/repository"
 	"haemong-be/service"
@@ -60,5 +61,7 @@ func main() {
 	comment := app.Group("/comment")
 	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
 
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+	
 	_ = app.Listen(":8080")
 }
