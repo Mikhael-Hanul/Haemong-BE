@@ -16,6 +16,7 @@ func main() {
 	app := fiber.New()
 	password := os.Getenv("PASSWORD")
 	host := os.Getenv("HOST")
+	gptkey := os.Getenv("GPT")
 	db, err := sql.Open("mysql", "admin:"+password+"@tcp("+host+":3306)/haemong")
 	if err != nil {
 		fmt.Println("db boom..! ", err)
@@ -35,12 +36,14 @@ func main() {
 	authService := service.NewAuthService(authRepository, userRepository)
 	ilgiService := service.NewIlgiService(ilgiRepository)
 	commentService := service.NewCommentService(commentRepository)
+	aiService := service.NewAiService(gptkey)
 
 	userController := controller.NewUserController(userService)
 	feedController := controller.NewFeedController(feedService)
 	authController := controller.NewAuthController(authService)
 	ilgiController := controller.NewIlgiController(ilgiService)
 	commentController := controller.NewCommentController(commentService)
+	aiController := controller.NewAiController(aiService)
 
 	user := app.Group("/user")
 	user.Post("/sign-up", userController.SignUp)
@@ -63,6 +66,9 @@ func main() {
 	comment := app.Group("/comment")
 	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
 	comment.Post("/", commentController.CreateComment)
+
+	ai := app.Group("/ai")
+	ai.Get("/", aiController.Haemong)
 
 	_ = app.Listen(":8080")
 }
