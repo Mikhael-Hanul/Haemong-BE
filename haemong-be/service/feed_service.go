@@ -36,3 +36,7 @@ func (r *FeedService) AddLike(feedId string) error {
 func (r *FeedService) RemoveLike(feedId string) error {
 	return r.feedRepo.RemoveLike(feedId)
 }
+
+func (r *FeedService) AddDislike(feedId string) error {
+	return r.feedRepo.AddDislike(feedId)
+}

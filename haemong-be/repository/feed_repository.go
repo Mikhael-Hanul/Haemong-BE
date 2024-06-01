@@ -86,3 +86,15 @@ func (r *FeedRepository) RemoveLike(feedId string) error {
 	}
 	return nil
 }
+
+func (r *FeedRepository) AddDislike(feedId string) error {
+	feed, err := r.FindFeedByFeedId(feedId)
+	if err != nil {
+		return err
+	}
+	_, err = r.db.Exec("update tbl_feed set dislikeCount = ? where feedId = ?", feed.LikeCount+1, feedId)
+	if err != nil {
+		return errors.New("싫어요 추가에 실패했습니다")
+	}
+	return nil
+}
