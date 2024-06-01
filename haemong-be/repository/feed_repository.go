@@ -11,10 +11,12 @@ type FeedRepository struct {
 }
 
 type FeedEntity struct {
-	FeedId  string
-	UserId  string
-	Title   string
-	Content string
+	FeedId       string
+	UserId       string
+	Title        string
+	Content      string
+	LikeCount    int
+	DislikeCount int
 }
 
 func NewFeedRepository(db *sql.DB) *FeedRepository {
@@ -24,7 +26,7 @@ func NewFeedRepository(db *sql.DB) *FeedRepository {
 }
 
 func (r *FeedRepository) SaveFeed(feedId, userId, title, content string) error {
-	_, err := r.db.Exec("insert into tbl_feed value (?, ?, ?, ?)", feedId, userId, title, content)
+	_, err := r.db.Exec("insert into tbl_feed value (?, ?, ?, ?, ?, ?)", feedId, userId, title, content, 0, 0)
 	if err != nil {
 		return errors.New("피드 등록에 실패함 : " + err.Error())
 	}
@@ -42,7 +44,10 @@ func (r *FeedRepository) ReadAllFeeds() (list []FeedEntity, err error) {
 		err = rows.Scan(&feedEntity.FeedId,
 			&feedEntity.UserId,
 			&feedEntity.Title,
-			&feedEntity.Content)
+			&feedEntity.Content,
+			&feedEntity.LikeCount,
+			&feedEntity.DislikeCount)
+
 		list = append(list, feedEntity)
 	}
 	return list, nil
