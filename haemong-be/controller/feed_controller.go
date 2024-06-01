@@ -46,3 +46,12 @@ func (r *FeedController) AddLike(c *fiber.Ctx) error {
 	}
 	return c.Status(200).JSON(map[string]string{"message": "좋아요 추가를 완료했습니다."})
 }
+
+func (r *FeedController) RemoveLike(c *fiber.Ctx) error {
+	feedId := c.Params("feedId")
+	err := r.feedService.RemoveLike(feedId)
+	if err != nil {
+		return c.Status(500).JSON(map[string]string{"message": err.Error()})
+	}
+	return c.Status(200).JSON(map[string]string{"message": "좋아요 삭제를 완료했습니다."})
+}

@@ -32,3 +32,7 @@ func (r *FeedService) ReadAllFeeds() (list []repository.FeedEntity, err error) {
 func (r *FeedService) AddLike(feedId string) error {
 	return r.feedRepo.AddLike(feedId)
 }
+
+func (r *FeedService) RemoveLike(feedId string) error {
+	return r.feedRepo.RemoveLike(feedId)
+}

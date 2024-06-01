@@ -70,7 +70,19 @@ func (r *FeedRepository) AddLike(feedId string) error {
 	}
 	_, err = r.db.Exec("update tbl_feed set likeCount = ? where feedId = ?", feed.LikeCount+1, feedId)
 	if err != nil {
-		return errors.New("좋아요 추가에 실패했습니다.")
+		return errors.New("좋아요 추가에 실패했습니다")
+	}
+	return nil
+}
+
+func (r *FeedRepository) RemoveLike(feedId string) error {
+	feed, err := r.FindFeedByFeedId(feedId)
+	if err != nil {
+		return err
+	}
+	_, err = r.db.Exec("update tbl_feed set likeCount = ? where feedId = ?", feed.LikeCount-1, feedId)
+	if err != nil {
+		return errors.New("좋아요 삭제에 실패했습니다")
 	}
 	return nil
 }
