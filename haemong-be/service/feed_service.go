@@ -40,3 +40,7 @@ func (r *FeedService) RemoveLike(feedId string) error {
 func (r *FeedService) AddDislike(feedId string) error {
 	return r.feedRepo.AddDislike(feedId)
 }
+
+func (r *FeedService) RemoveDislike(feedId string) error {
+	return r.feedRepo.RemoveDislike(feedId)
+}
