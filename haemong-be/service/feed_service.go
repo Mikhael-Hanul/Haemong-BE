@@ -28,3 +28,7 @@ func (r *FeedService) SaveFeed(userId, title, content string) error {
 func (r *FeedService) ReadAllFeeds() (list []repository.FeedEntity, err error) {
 	return r.feedRepo.ReadAllFeeds()
 }
+
+func (r *FeedService) AddLike(feedId string) error {
+	return r.feedRepo.AddLike(feedId)
+}

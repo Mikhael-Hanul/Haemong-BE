@@ -37,3 +37,12 @@ func (r *FeedController) ReadAllFeeds(c *fiber.Ctx) error {
 	}
 	return c.Status(200).JSON(feeds)
 }
+
+func (r *FeedController) AddLike(c *fiber.Ctx) error {
+	feedId := c.Params("feedId")
+	err := r.feedService.AddLike(feedId)
+	if err != nil {
+		return c.Status(500).JSON(map[string]string{"message": err.Error()})
+	}
+	return c.Status(200).JSON(map[string]string{"message": "좋아요 추가를 완료했습니다."})
+}

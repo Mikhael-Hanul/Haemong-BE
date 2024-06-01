@@ -52,3 +52,25 @@ func (r *FeedRepository) ReadAllFeeds() (list []FeedEntity, err error) {
 	}
 	return list, nil
 }
+
+func (r *FeedRepository) FindFeedByFeedId(feedId string) (FeedEntity, error) {
+	e := new(FeedEntity)
+	err := r.db.QueryRow("select * from tbl_feed where feedId = ?", feedId).Scan(
+		e.FeedId, e.UserId, e.Title, e.Content, e.LikeCount, e.DislikeCount)
+	if err != nil {
+		return FeedEntity{}, errors.New("존재하지 않는 피드입니다")
+	}
+	return *e, nil
+}
+
+func (r *FeedRepository) AddLike(feedId string) error {
+	feed, err := r.FindFeedByFeedId(feedId)
+	if err != nil {
+		return err
+	}
+	_, err = r.db.Exec("update tbl_feed set likeCount = ? where feedId = ?", feed.LikeCount+1, feedId)
+	if err != nil {
+		return errors.New("좋아요 추가에 실패했습니다.")
+	}
+	return nil
+}
