@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 )
 
 type FeedRepository struct {
@@ -36,7 +35,6 @@ func (r *FeedRepository) SaveFeed(feedId, userId, title, content string) error {
 func (r *FeedRepository) ReadAllFeeds() (list []FeedEntity, err error) {
 	rows, err := r.db.Query("SELECT * FROM tbl_feed")
 	if err != nil {
-		fmt.Println(err)
 		return []FeedEntity{}, errors.New("피드 불러오기 실패")
 	}
 	feedEntity := FeedEntity{}
@@ -109,4 +107,23 @@ func (r *FeedRepository) RemoveDislike(feedId string) error {
 		return errors.New("싫어요 삭제에 실패했습니다")
 	}
 	return nil
+}
+
+func (r *FeedRepository) ReedFeedsOrderPopularity() (list []FeedEntity, err error) {
+	rows, err := r.db.Query("SELECT * FROM tbl_feed order by likeCount desc limit 10")
+	if err != nil {
+		return []FeedEntity{}, errors.New("인기순 피드 불러오기 실패")
+	}
+	feedEntity := FeedEntity{}
+	for rows.Next() {
+		err = rows.Scan(&feedEntity.FeedId,
+			&feedEntity.UserId,
+			&feedEntity.Title,
+			&feedEntity.Content,
+			&feedEntity.LikeCount,
+			&feedEntity.DislikeCount)
+
+		list = append(list, feedEntity)
+	}
+	return list, nil
 }

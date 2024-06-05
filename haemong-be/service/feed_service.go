@@ -44,3 +44,7 @@ func (r *FeedService) AddDislike(feedId string) error {
 func (r *FeedService) RemoveDislike(feedId string) error {
 	return r.feedRepo.RemoveDislike(feedId)
 }
+
+func (r *FeedService) ReedFeedsOrderPopularity() (list []repository.FeedEntity, err error) {
+	return r.feedRepo.ReedFeedsOrderPopularity()
+}

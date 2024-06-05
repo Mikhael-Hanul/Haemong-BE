@@ -73,3 +73,14 @@ func (r *FeedController) RemoveDislike(c *fiber.Ctx) error {
 	}
 	return c.Status(200).JSON(map[string]string{"message": "싫어요 삭제를 완료했습니다."})
 }
+
+func (r *FeedController) ReedFeedsOrderPopularity(c *fiber.Ctx) error {
+	feeds, err := r.feedService.ReedFeedsOrderPopularity()
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	if len(feeds) == 0 {
+		return c.Status(200).JSON([]response.ReadFeedResDTO{})
+	}
+	return c.Status(200).JSON(feeds)
+}

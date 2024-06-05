@@ -66,6 +66,7 @@ func main() {
 	feed.Delete("/like/:feedId", feedController.RemoveLike)
 	feed.Post("/dislike/:feedId", feedController.AddDislike)
 	feed.Delete("/dislike/:feedId", feedController.RemoveDislike)
+	feed.Get("/popularity", feedController.ReedFeedsOrderPopularity)
 
 	comment := app.Group("/comment")
 	comment.Get("/:feedId", commentController.ReadCommentsOnTheFeed)
