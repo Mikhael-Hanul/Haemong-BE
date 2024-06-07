@@ -54,7 +54,7 @@ func (r *FeedRepository) ReadAllFeeds() (list []FeedEntity, err error) {
 func (r *FeedRepository) FindFeedByFeedId(feedId string) (FeedEntity, error) {
 	e := new(FeedEntity)
 	err := r.db.QueryRow("select * from tbl_feed where feedId = ?", feedId).Scan(
-		e.FeedId, e.UserId, e.Title, e.Content, e.LikeCount, e.DislikeCount)
+		&e.FeedId, &e.UserId, &e.Title, &e.Content, &e.LikeCount, &e.DislikeCount)
 	if err != nil {
 		return FeedEntity{}, errors.New("존재하지 않는 피드입니다")
 	}
